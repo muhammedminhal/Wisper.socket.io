@@ -54,9 +54,7 @@
         var $chat = $('#chat') ;
      
 
-// minhal is s greate that this work as been comited and saved in private branch
-
-
+        
         $nickForm.submit(function(e){
             
             e.preventDefault()
@@ -97,10 +95,8 @@
             $chat.append('<b>'+data.nick+":"+"</b>"+data.msg+'<br/>')
         });
         socket.on('whisper',(data)=>{
-            if(data.nick==="minhal"){
+            
                 $chat.append('<b>'+data.nick+":"+"</b>"+data.msg+'<br/>')
-            }
-
         })
     });
   

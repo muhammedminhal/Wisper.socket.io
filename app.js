@@ -7,6 +7,8 @@ var users = {};
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html')
 })
+
+
 io.sockets.on('connection', (socket) => {
     socket.on("new user", (data, callback) => {
 
@@ -18,13 +20,13 @@ io.sockets.on('connection', (socket) => {
             callback(true)
             //    socketileek client nne kittiyye data nicknme aayit store aakum for uniqueness
             socket.nickname = data
-           var bino = users[socket.nickname] = socket;
+            users[socket.nickname] = socket;
             console.log("bino",users[socket.nickname])
             updateNickname()
         }
     })
 
-
+    
     // giving the users object to the client and making it loop through all user object.
     function updateNickname() {
         io.sockets.emit("usernames", Object.keys(users));
@@ -36,15 +38,13 @@ io.sockets.on('connection', (socket) => {
         if (msg.substr(0, 3) === '/w ') {
             var msg = msg.substr(3);
             var ind = msg.indexOf(' ');
+
             if (ind !== -1) {
                 var name = msg.substring(0, ind)
                 var msg = msg.substring(ind + 1)
                 if (name in users) {
-                  users[name].emit('whisper', { msg: msg, nick: socket.nickname })
+                    users[name].emit('whisper', { msg: msg, nick: socket.nickname })
                     console.log("wisper")
-                    if(msg===''){
-                        
-                    }
                 } else {
                     callback("enter valid user")
                 }
@@ -63,6 +63,6 @@ io.sockets.on('connection', (socket) => {
     })
 })
 
-http.listen(3000, () => {
-    console.log('user conected on port 3000')
+http.listen(8000, () => {
+    console.log('user conected on port 8000')
 })
